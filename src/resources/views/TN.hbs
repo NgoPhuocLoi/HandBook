@@ -1,0 +1,203 @@
+
+        <style>
+            body {
+    font-family: sans-serif;
+    background-color: #ccc;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+* {
+    box-sizing: border-box;
+}
+h1 {
+    color: #eee;
+    margin-bottom: 30px;
+}
+.container {
+    padding: 40px;
+    margin: 0 auto;
+    max-width: 1000px;
+    text-align: center;
+}
+
+
+#coursesList{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.course{
+    background-color: #fff;
+    width: 100%;
+    display: flex;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-direction: row-reverse;
+}
+
+
+
+.course-info{
+    flex: 4;
+    padding: 10px;
+}
+
+.course-info h2 {
+    /* margin-top: -18px; */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    height: fit-content;
+    overflow-y: hidden;
+}
+
+.course-info h5{
+    margin-top: 20px;
+}
+
+.course-img{
+    flex: 3;
+    padding: 10px;
+}
+
+.course img{
+    width: 100%;
+    /* height: 100%; */
+    border-radius: 6px;
+}
+
+#searchBar {
+    width: 100%;
+    height: 32px;
+    border-radius: 3px;
+    border: 1px solid #eaeaea;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+#searchWrapper {
+    position: relative;
+}
+
+#searchWrapper input{
+    height: 46px;
+    font-size: 16px;
+}
+
+#searchWrapper::after {
+    content: '🔍';
+    position: absolute;
+    top: 7px;
+    right: 15px;
+}
+
+@media (max-width:550px){
+    .course{
+        flex-direction: column-reverse;
+    }
+}
+        </style>
+    </head>
+    <body>
+
+        <div id="searchWrapper">
+            <input
+                type="text"
+                name="searchBar"
+                id="searchBar"
+                placeholder="Nhập tên công thức để tìm kiếm"
+            />
+        </div>
+        <div class="container mt-4">
+            <ul id="coursesList">
+            {{#each TNs}}
+                <div name="{{this.name}}" age="{{this.class}}" imgUrl="{{this.imgUrl}}" videoUrl="{{this.videoUrl}}" class="input"></div>
+            {{/each}}
+            </ul>
+        </div>
+        
+       
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
+        <!-- <script src="custom.js"></script> -->
+        <script>
+                        
+const coursesList = document.getElementById('coursesList');
+const searchBar = document.getElementById('searchBar');
+const courses = []
+const input = document.querySelectorAll("div[name]")
+
+input.forEach(course => {
+    courses.push({
+        name: course.getAttribute("name"),
+        class: course.getAttribute("age"),
+        imgUrl: course.getAttribute("imgUrl"),
+        videoUrl: course.getAttribute("videoUrl"),
+    })
+})
+console.log(courses)
+
+searchBar.addEventListener('keyup', (e) => {
+    const searchString = e.target.value.toLowerCase();
+
+    const filteredCourses = courses.filter((course) => {
+        const indexSlap = course.name.indexOf("\\")
+        const indexSpace = course.name.indexOf(' ', course.name.indexOf("\\"))
+        return (
+            (course.name.toLowerCase().slice(0, indexSlap) + course.name.toLowerCase().slice(indexSpace)).includes(searchString) ||
+            course.class.toLowerCase().includes(searchString)
+        );
+    });
+
+
+    
+    displayCourses(filteredCourses);
+    MathJax.typeset(); 
+});
+
+/*
+<a href="${course.video}" class="course-img" target="_blank">
+                    <img src="${course.image}" />   
+                </a>
+    <h5>${course.age}</h5>
+*/
+
+const displayCourses = (courses) => {
+    const htmlString = courses
+        .map((course) => {
+            return `
+            <li class="course">
+                <div class="course-info">
+                    <h2>${course.name}</h2>
+                    <h5>Lớp: ${course.class}</h5>
+                </div>
+                <a href="${course.videoUrl}" class="course-img" target="_blank">
+                    <img src="${course.imgUrl}" />   
+                </a>
+                
+            </li>
+        `;
+        })
+        .join('');
+    coursesList.innerHTML = htmlString;
+};
+displayCourses(courses);
+
+            
+            
+        </script>
+
+        <script>
+            
+            
+        </script>
+    </body>
+</html>
