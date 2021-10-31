@@ -1,0 +1,23 @@
+.menu{
+    background-color: $primary-color !important;
+    border-bottom: 1px solid #286a61;
+    padding: 0;
+}
+
+.collapse.navbar-collapse{
+    justify-self: end;
+}
+
+.nav-item{
+    padding: 8px 10px;
+    transition: .2s;
+}
+
+.nav-item.active{
+    a{color: #ffe873 !important;}
+}
+
+.nav-item:hover{
+    background-color: #317e74;
+    a{color: #ffe873 !important;}
+}

@@ -1,9 +1,10 @@
 @import './variables.scss';
+@import './header.scss';
+@import './home/home.scss';
+@import './formula.scss';
+@import './TN.scss';
+@import './flashcard.scss';
 
-
-h1{
-    color: $red-color;
-}
 
 footer{
     position: fixed;
